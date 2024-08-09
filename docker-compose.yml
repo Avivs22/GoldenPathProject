@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  backend5000:
+    build:
+      context: ./backend
+      dockerfile: dockerfile.backend5000
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+
+  backend8000:
+    build:
+      context: ./backend
+      dockerfile: dockerfile.backend8000
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./goldenpathfrontend
+      dockerfile: dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./goldenpathfrontend:/app
+    depends_on:
+      - backend5000
+      - backend8000
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123698745Hh
+      POSTGRES_DB: goldenPathDatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
