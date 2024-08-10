@@ -10,7 +10,9 @@ bash
 docker-compose build
 docker-compose up -d 
 Access the frontend at http://localhost:3000.
-(Its will take a little time to run the frontend wait around 1-2 mins)
+(Its will take a little time to run 
+the frontend wait around 1-2 mins)
+its will show at the start didnt send any data just wait around 2 mins and its will work (takes time to load react)
 
 And have docker Desktop Running
 
