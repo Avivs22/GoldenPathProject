@@ -3,26 +3,26 @@ import { MapContainer, TileLayer, Marker, Circle, Polyline } from 'react-leaflet
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import planeImg from "../images/plane.png";
-import droneImg from "../images/drone.png"; // Updated image import
+import droneImg from "../images/drone.png";
 import axios from 'axios';
 
 // Function to create a rotated icon based on the heading
 const createRotatedIcon = (heading) => {
   return L.divIcon({
     className: 'custom-div-icon',
-    html: `<div style="transform: rotate(${heading}deg); width: 16px; height: 16px; background: url(${planeImg}) no-repeat center; background-size: cover;"></div>`,
-    iconSize: [16, 16],
+    html: `<div style="transform: rotate(${heading}deg); width: 24px; height: 24px; background: url(${planeImg}) no-repeat center; background-size: cover;"></div>`,
+    iconSize: [24, 24],
     iconAnchor: [16, 16], // Anchor in the center of the icon
   });
 };
 
 // Function to create an information icon for displaying plane details
-const createInfoIcon = (callsign, timeToCollision) => {
+const createInfoIcon = (callsign, timeToCollision, timeToCollisionNoVector) => {
   return L.divIcon({
     className: 'info-div-icon',
     html: `<div style="background-color: white; padding: 5px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.5); transform: translateY(-30px);">
             <div style="font-size: 12px; color: black; text-align: center;">
-              ${callsign}<br/>Time to Collision: ${(timeToCollision / 60).toFixed(2)}min
+              ${callsign}<br/>Time to Collision: ${(timeToCollision / 60).toFixed(2)}min <br/> Time to Collision No Vector: ${(timeToCollisionNoVector / 60).toFixed(2)}min
             </div>
           </div>`,
     iconSize: [120, 60],
@@ -135,7 +135,36 @@ const MapComponent = () => {
       alert('Failed to save data.');
     }
   };
-  
+
+  const handleLoad = async () => {
+    try {
+      // Fetch plane data from backend
+      const planesResponse = await axios.get('http://localhost:8000/planes');
+      const fetchedPlanes = planesResponse.data.map(plane => ({
+        longitude: plane.planelongitude,
+        latitude: plane.planelatitude,
+        velocity: plane.planevelocity,
+        heading: plane.planeheading,
+        callsign: plane.planesID,
+      }));
+
+      // Fetch drone data from backend
+      const dronesResponse = await axios.get('http://localhost:8000/drones');
+      const fetchedDrones = dronesResponse.data.map(drone => ({
+        position: [drone.dronelatitude, drone.dronelongitude],
+        radius: drone.droneradius,
+        speed: drone.dronespeed,
+      }));
+
+      // Update state with the loaded data
+      setPlaneData(prev => [...prev, ...fetchedPlanes]);
+      setFilterPlaneData(prev => [...prev, ...fetchedPlanes]);
+      setUserMarkers(prev => [...prev, ...fetchedDrones]);
+    } catch (error) {
+      console.error('Error loading data:', error);
+      alert('Failed to load data.');
+    }
+  };
 
   return (
     <div style={{ position: 'relative', height: '100vh', width: '100%' }}>
@@ -169,7 +198,7 @@ const MapComponent = () => {
             {hoveredPlane && hoveredPlane === plane && (
               <Marker
                 position={[plane.latitude + 0.1, plane.longitude + 0.1]} // Adjust the position as needed
-                icon={createInfoIcon(plane.callsign, plane.timeToCollision)}
+                icon={createInfoIcon(plane.callsign, plane.minTimeToCollision,plane.timeToCollisionNoVector)}
               />
             )}
           </React.Fragment>
@@ -198,7 +227,7 @@ const MapComponent = () => {
         style={{
           position: 'absolute',
           top: '10px',
-          left: '10px',
+          left: '50px',
           padding: '10px 20px',
           backgroundColor: '#007bff',
           color: '#fff',
@@ -209,6 +238,23 @@ const MapComponent = () => {
         }}
       >
         Save
+      </button>
+      <button
+        onClick={handleLoad}
+        style={{
+          position: 'absolute',
+          top: '50px',
+          left: '50px',
+          padding: '10px 20px',
+          backgroundColor: '#28a745',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          zIndex: 1000, // Ensure it appears on top of the map
+        }}
+      >
+        Load
       </button>
       <div style={{
         position: 'absolute',

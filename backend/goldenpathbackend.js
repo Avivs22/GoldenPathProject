@@ -109,7 +109,6 @@ const calculateCollisionTime = (planePosition, dronePosition, planeSpeed, planeH
   return timeToCollision > 0 ? timeToCollision : Infinity
 };
 
-
 const findClosestPlane = (planeData,droneMarker) => {
   let closestPlane = null;
   let minTimeToCollision = Infinity;
@@ -130,7 +129,8 @@ const findClosestPlane = (planeData,droneMarker) => {
       );
       if (timeToCollision < minTimeToCollision) {
         minTimeToCollision = timeToCollision;
-        closestPlane = { ...plane, timeToCollision, distance };
+        let timeToCollisionNoVector = distance / droneMarker.speed
+        closestPlane = { ...plane, minTimeToCollision, timeToCollisionNoVector };
       }
     }
   });

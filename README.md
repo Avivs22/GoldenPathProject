@@ -7,7 +7,7 @@ Navigate to the directory containing the docker-compose.yml file.
 Run the following command to start the project:
 
 bash
-docker-compose up
+docker-compose up -d 
 Access the frontend at http://localhost:3000.
 (Its will take a little time to run the frontend wait around 1-2 mins)
 
@@ -20,3 +20,4 @@ Hover over a plane on the map to view its details, including the time of collisi
 Saving Data:
 
 In the top-left corner of the website, use the "Save" option to save the current drones and planes in the area to the database.
+In the top-left corner of the website, use the "Load" option to Load all of the data you saved in the database to the Map
