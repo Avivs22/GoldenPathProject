@@ -7,6 +7,7 @@ Navigate to the directory containing the docker-compose.yml file.
 Run the following command to start the project:
 
 bash
+docker-compose build
 docker-compose up -d 
 Access the frontend at http://localhost:3000.
 (Its will take a little time to run the frontend wait around 1-2 mins)
