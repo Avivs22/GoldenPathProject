@@ -11,6 +11,8 @@ docker-compose up -d
 Access the frontend at http://localhost:3000.
 (Its will take a little time to run the frontend wait around 1-2 mins)
 
+And have docker Desktop Running
+
 Features and Usage
 Adding Drones:
 
