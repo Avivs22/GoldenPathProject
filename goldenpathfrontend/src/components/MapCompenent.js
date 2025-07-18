@@ -6,6 +6,7 @@ import planeImg from "../images/plane.png";
 import droneImg from "../images/drone.png";
 import myAxios from './axiosInterface.js';
 import axios from "axios"
+import "./ButtonStyles.css"
 
 
 
@@ -90,8 +91,7 @@ const MapComponent = () => {
   const [userMarkers, setUserMarkers] = useState([]);
   const [isMinimized, setIsMinimized] = useState(false);
 
-  useEffect(() => {
-    const fetchPlaneData = async () => {
+   const fetchPlaneData = async () => {
       try {
         const response = await axios.get('https://opensky-network.org/api/states/all', {
           auth: {
@@ -119,14 +119,6 @@ const MapComponent = () => {
         console.error('Error fetching plane data:', error);
       }
     };
-
-    fetchPlaneData();
-    const interval = setInterval(fetchPlaneData, 30000); // Fetch data every 30 seconds
-    console.log(planeData)
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
-  console.log(planeData)
   useEffect(() => {
     if (userMarkers.length > 0) {
       updateFilteredPlaneData();
@@ -328,6 +320,12 @@ const MapComponent = () => {
       >
         Load
       </button>
+      <button
+        onClick={fetchPlaneData}
+        className="floating-button"
+      >
+        Update Planes
+      </button>
       <div style={{
         position: 'absolute',
         top: '10px',
@@ -357,7 +355,7 @@ const MapComponent = () => {
         </button>
         {!isMinimized && (
           <>
-           <h2 style={{ fontSize: '18px', margin: '0 0 10px', color: '#333' }}>Enter Position</h2>
+           <h2 style={{ fontSize: '18px', margin: '0 0 10px', color: '#333' ,fontFamily: 'Merriweather, Georgia, serif', textAlign:"center"}}>Enter Position</h2>
            <form onSubmit={handleSubmit}>
              <label style={{ display: 'block', marginBottom: '10px' }}>
                Latitude:
@@ -380,7 +378,7 @@ const MapComponent = () => {
                       style={{ width: '100%', padding: '8px', marginTop: '4px', borderRadius: '4px', border: '1px solid #ddd' }} />
              </label>
              <button type="submit"
-                     style={{ width: '100%', padding: '10px', borderRadius: '4px', border: 'none', backgroundColor: '#007bff', color: '#fff', fontSize: '16px', cursor: 'pointer' }}>
+                     className="add-marker-button">
                Add Marker
              </button>
            </form>
