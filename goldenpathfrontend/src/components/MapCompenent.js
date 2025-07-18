@@ -123,7 +123,7 @@ const MapComponent = () => {
     if (userMarkers.length > 0) {
       updateFilteredPlaneData();
     } 
-  }, [userMarkers, planeData]);
+  }, [userMarkers, planeData,updateFilteredPlaneData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
