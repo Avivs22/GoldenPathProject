@@ -93,6 +93,9 @@ const MapComponent = () => {
   useEffect(() => {
     const fetchPlaneData = async () => {
       try {
+        if (import.meta.env.VITE_DISABLE_API_REQUESTS == 'true') {
+            return
+        } 
         const response = await axios.get('https://opensky-network.org/api/states/all', {
           auth: {
             username: 'avivs22',
@@ -121,7 +124,7 @@ const MapComponent = () => {
 
     fetchPlaneData();
     const interval = setInterval(fetchPlaneData, 30000); // Fetch data every 30 seconds
-
+    console.log(planeData)
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, []);
