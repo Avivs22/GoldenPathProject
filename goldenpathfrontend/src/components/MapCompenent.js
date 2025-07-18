@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useCallback  } from 'react';
 import { MapContainer, TileLayer, Marker, Circle, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -78,12 +78,12 @@ const MapComponent = () => {
     }
   };
   
-  const updateFilteredPlaneData = async () => {
-    const promises = userMarkers.map(marker => fetchClosestPlane(planeData, marker));
-    const results = await Promise.all(promises);
-    const validPlanes = results.filter(plane => plane !== null);
-    setFilterPlaneData(validPlanes);
-  };
+ const updateFilteredPlaneData = useCallback(async () => {
+  const promises = userMarkers.map(marker => fetchClosestPlane(planeData, marker));
+  const results = await Promise.all(promises);
+  const validPlanes = results.filter(plane => plane !== null);
+  setFilterPlaneData(validPlanes);
+}, [userMarkers, planeData]);
   
   const [planeData, setPlaneData] = useState([]);
   const [filterPlaneData, setFilterPlaneData] = useState([]);
