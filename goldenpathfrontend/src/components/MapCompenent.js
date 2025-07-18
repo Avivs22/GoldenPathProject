@@ -15,11 +15,11 @@ const createGlowingRotatedIcon = (heading) => {
     html: `
       <div style="
         transform: rotate(${heading}deg);
-        width: 36px;
-        height: 36px;
+        width: 24px;
+        height: 24px;
         background: url(${planeImg}) no-repeat center;
         background-size: cover;
-        box-shadow: 0 0 10px 5px rgba(61, 252, 3, 0.8);
+        box-shadow: 0 0 30px 15px rgba(61, 252, 3, 0.8);
         border-radius: 50%;
       "></div>`,
     iconSize: [24, 24],
@@ -53,7 +53,7 @@ const createInfoIcon = (callsign, timeToCollision, timeToCollisionNoVector) => {
 const createInfoIcon2 = (callsign) => {
   return L.divIcon({
     className: 'info-div-icon',
-    html: `<div style="background-color: white; padding: 5px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.5); transform: translateY(-35px);">
+    html: `<div style="background-color: white; padding: 5px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.5); transform: translateY(-30px);">
             <div style="font-size: 12px; color: black; text-align: center;">
               ${callsign}
             </div>
@@ -99,7 +99,7 @@ const MapComponent = () => {
             password: '123698745t',
           },
         });
-        const limitNum = 50;
+        const limitNum = 100;
         const limitedPlanes = response.data.states.slice(0, limitNum).map(state => ({
           longitude: state[5],
           latitude: state[6],
@@ -112,8 +112,7 @@ const MapComponent = () => {
          typeof plane.longitude === 'number' &&
          !isNaN(plane.latitude) &&
         !isNaN(plane.longitude) &&
-        !isNaN(plane.callsign) &&
-        plane.callsign !== "" 
+        plane.callsign !== ""
   );;
         setPlaneData(limitedPlanes);
       } catch (error) {
@@ -127,7 +126,7 @@ const MapComponent = () => {
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, []);
-  
+  console.log(planeData)
   useEffect(() => {
     if (userMarkers.length > 0) {
       updateFilteredPlaneData();
