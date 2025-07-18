@@ -78,18 +78,20 @@ const MapComponent = () => {
     }
   };
   
- const updateFilteredPlaneData = useCallback(async () => {
-  const promises = userMarkers.map(marker => fetchClosestPlane(planeData, marker));
-  const results = await Promise.all(promises);
-  const validPlanes = results.filter(plane => plane !== null);
-  setFilterPlaneData(validPlanes);
-}, [userMarkers, planeData]);
+
   
   const [planeData, setPlaneData] = useState([]);
   const [filterPlaneData, setFilterPlaneData] = useState([]);
   const [hoveredPlane, setHoveredPlane] = useState(null);
   const [userMarkers, setUserMarkers] = useState([]);
   const [isMinimized, setIsMinimized] = useState(false);
+
+   const updateFilteredPlaneData = useCallback(async () => {
+  const promises = userMarkers.map(marker => fetchClosestPlane(planeData, marker));
+  const results = await Promise.all(promises);
+  const validPlanes = results.filter(plane => plane !== null);
+  setFilterPlaneData(validPlanes);
+}, [userMarkers, planeData]);
 
    const fetchPlaneData = async () => {
       try {
