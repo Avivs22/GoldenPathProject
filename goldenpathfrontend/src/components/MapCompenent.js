@@ -6,6 +6,26 @@ import planeImg from "../images/plane.png";
 import droneImg from "../images/drone.png";
 import axios from 'axios';
 
+
+
+const createGlowingRotatedIcon = (heading) => {
+  return L.divIcon({
+    className: 'custom-div-icon',
+    html: `
+      <div style="
+        transform: rotate(${heading}deg);
+        width: 36px;
+        height: 36px;
+        background: url(${planeImg}) no-repeat center;
+        background-size: cover;
+        box-shadow: 0 0 10px 5px rgba(61, 252, 3, 0.8);
+        border-radius: 50%;
+      "></div>`,
+    iconSize: [24, 24],
+    iconAnchor: [16, 16],
+  });
+};
+
 // Function to create a rotated icon based on the heading
 const createRotatedIcon = (heading) => {
   return L.divIcon({
@@ -22,7 +42,19 @@ const createInfoIcon = (callsign, timeToCollision, timeToCollisionNoVector) => {
     className: 'info-div-icon',
     html: `<div style="background-color: white; padding: 5px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.5); transform: translateY(-30px);">
             <div style="font-size: 12px; color: black; text-align: center;">
-              ${callsign}<br/>Time to Collision: ${(timeToCollision / 60).toFixed(2)}min <br/> Time to Collision No Vector: ${(timeToCollisionNoVector / 60).toFixed(2)}min
+              ${callsign}<br/>Time to Collision: ${(timeToCollision / 60).toFixed(2)}min
+            </div>
+          </div>`,
+    iconSize: [120, 60],
+    iconAnchor: [60, 30],
+  });
+};
+const createInfoIcon2 = (callsign) => {
+  return L.divIcon({
+    className: 'info-div-icon',
+    html: `<div style="background-color: white; padding: 5px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.5); transform: translateY(-35px);">
+            <div style="font-size: 12px; color: black; text-align: center;">
+              ${callsign}
             </div>
           </div>`,
     iconSize: [120, 60],
@@ -66,14 +98,20 @@ const MapComponent = () => {
             password: '123698745t',
           },
         });
-        const limitNum = 200;
+        const limitNum = 50;
         const limitedPlanes = response.data.states.slice(0, limitNum).map(state => ({
           longitude: state[5],
           latitude: state[6],
           velocity: state[9],
           heading: state[10], // Use heading directly for rotation
           callsign: state[1], // Add callsign to the plane data
-        }));
+        }))
+        .filter(plane =>
+        typeof plane.latitude === 'number' &&
+         typeof plane.longitude === 'number' &&
+         !isNaN(plane.latitude) &&
+        !isNaN(plane.longitude)
+  );;
         setPlaneData(limitedPlanes);
       } catch (error) {
         console.error('Error fetching plane data:', error);
@@ -90,7 +128,7 @@ const MapComponent = () => {
   useEffect(() => {
     if (userMarkers.length > 0) {
       updateFilteredPlaneData();
-    }
+    } 
   }, [userMarkers, planeData]);
 
   const handleSubmit = (e) => {
@@ -189,7 +227,7 @@ const MapComponent = () => {
             )}
             <Marker
               position={[plane.latitude, plane.longitude]}
-              icon={createRotatedIcon(plane.heading)}
+              icon={createGlowingRotatedIcon(plane.heading)}
               eventHandlers={{
                 mouseover: () => setHoveredPlane(plane),
                 mouseout: () => setHoveredPlane(null),
@@ -199,6 +237,36 @@ const MapComponent = () => {
               <Marker
                 position={[plane.latitude + 0.1, plane.longitude + 0.1]} // Adjust the position as needed
                 icon={createInfoIcon(plane.callsign, plane.minTimeToCollision,plane.timeToCollisionNoVector)}
+              />
+            )}
+          </React.Fragment>
+        ))}
+         {planeData.map((plane, index) => (
+          <React.Fragment key={index}>
+            {/* Draw path if initial position exists */}
+            {plane.initialPosition && (
+              <Polyline
+                positions={[
+                  plane.initialPosition,
+                  [plane.latitude, plane.longitude]
+                ]}
+                color="white"
+                weight={2}
+                opacity={0.7}
+              />
+            )}
+            <Marker
+              position={[plane.latitude, plane.longitude]}
+              icon={createRotatedIcon(plane.heading)}
+              eventHandlers={{
+                mouseover: () => setHoveredPlane(plane),
+                mouseout: () => setHoveredPlane(null),
+              }}
+            />
+            {hoveredPlane && hoveredPlane === plane && (
+              <Marker
+                position={[plane.latitude + 0.1, plane.longitude + 0.1]} // Adjust the position as needed
+                icon={createInfoIcon2(plane.callsign)}
               />
             )}
           </React.Fragment>
