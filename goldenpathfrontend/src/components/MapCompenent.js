@@ -93,10 +93,6 @@ const MapComponent = () => {
   useEffect(() => {
     const fetchPlaneData = async () => {
       try {
-        if (import.meta.env.VITE_DISABLE_API_REQUESTS == 'true') {
-            console.log("Im blocked")
-            return
-        } 
         const response = await axios.get('https://opensky-network.org/api/states/all', {
           auth: {
             username: 'avivs22',
