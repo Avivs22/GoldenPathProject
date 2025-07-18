@@ -4,7 +4,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import planeImg from "../images/plane.png";
 import droneImg from "../images/drone.png";
-import axios from 'axios';
+import myAxios from './axiosInterface.js';
+import axios from "axios"
 
 
 
@@ -65,7 +66,7 @@ const createInfoIcon2 = (callsign) => {
 const MapComponent = () => {  
   const fetchClosestPlane = async (planeData, marker) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/findClosestPlane', {
+      const response = await myAxios.post('/api/findClosestPlane', {
         planeData:planeData,
         droneMarker: marker // Updated parameter name
       });
@@ -154,12 +155,12 @@ const MapComponent = () => {
       }));
       
       await Promise.all(savePlaneData.map(data =>
-        axios.post('http://localhost:8000/planes', data)
+        myAxios.post('/planes', data)
       ));
       
       // Send drone data
       await Promise.all(userMarkers.map(marker =>
-        axios.post('http://localhost:8000/drones', {
+        myAxios.post('/drones', {
           dronelatitude: marker.position[0],
           dronelongitude: marker.position[1],
           droneradius: marker.radius,
@@ -177,7 +178,7 @@ const MapComponent = () => {
   const handleLoad = async () => {
     try {
       // Fetch plane data from backend
-      const planesResponse = await axios.get('http://localhost:8000/planes');
+      const planesResponse = await myAxios.get('/planes');
       const fetchedPlanes = planesResponse.data.map(plane => ({
         longitude: plane.planelongitude,
         latitude: plane.planelatitude,
@@ -187,7 +188,7 @@ const MapComponent = () => {
       }));
 
       // Fetch drone data from backend
-      const dronesResponse = await axios.get('http://localhost:8000/drones');
+      const dronesResponse = await myAxios.get('/drones');
       const fetchedDrones = dronesResponse.data.map(drone => ({
         position: [drone.dronelatitude, drone.dronelongitude],
         radius: drone.droneradius,
@@ -292,6 +293,7 @@ const MapComponent = () => {
       </MapContainer>
       <button
         onClick={handleSave}
+        disabled
         style={{
           position: 'absolute',
           top: '10px',
@@ -309,6 +311,7 @@ const MapComponent = () => {
       </button>
       <button
         onClick={handleLoad}
+        disabled
         style={{
           position: 'absolute',
           top: '50px',
