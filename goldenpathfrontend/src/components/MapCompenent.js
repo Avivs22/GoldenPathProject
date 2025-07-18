@@ -111,7 +111,9 @@ const MapComponent = () => {
         typeof plane.latitude === 'number' &&
          typeof plane.longitude === 'number' &&
          !isNaN(plane.latitude) &&
-        !isNaN(plane.longitude)
+        !isNaN(plane.longitude) &&
+        !isNaN(plane.callsign) &&
+        plane.callsign !== "" 
   );;
         setPlaneData(limitedPlanes);
       } catch (error) {
