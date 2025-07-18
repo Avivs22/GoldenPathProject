@@ -65,7 +65,7 @@ const createInfoIcon2 = (callsign) => {
 const MapComponent = () => {  
   const fetchClosestPlane = async (planeData, marker) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/findClosestPlane', {
+      const response = await axios.post('http://localhost:8000/api/findClosestPlane', {
         planeData:planeData,
         droneMarker: marker // Updated parameter name
       });
