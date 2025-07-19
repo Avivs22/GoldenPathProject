@@ -359,7 +359,7 @@ const MapComponent = () => {
         </button>
         {!isMinimized && (
           <>
-           <h2 style={{ fontSize: '18px', margin: '5px 0 10px', color: "black" ,fontFamily: 'Merriweather, Georgia, serif', textAlign:"center", fontSize:"24px",}}>Enter Bomb</h2>
+           <h2 style={{margin: '5px 0 10px', color: "black" ,fontFamily: 'Merriweather, Georgia, serif', textAlign:"center", fontSize:"24px",}}>Enter Bomb</h2>
            <form onSubmit={handleSubmit}>
              <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px"}}>
                Latitude:
