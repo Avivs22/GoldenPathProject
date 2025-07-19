@@ -22,18 +22,29 @@
   transform: scale(1.05);
 }
 .add-marker-button {
-  width: 100%;
+  position: absolute;
+  margin-top: 10px;
+  width: 90%;
   padding: 10px;
   border-radius: 10px;
   border: none;
-  font-family: Inter, Segoe UI, Roboto, sans-serif;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 16px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  background-color: #e9810b;
+  color: #ffffff;
+  font-size: 18px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .add-marker-button:hover {
-  background-color: #33d6ff; /* lighter blue on hover */
+  background-color: #be6a09; /* lighter blue on hover */
+}
+
+.input-style{
+  width: 95%;
+  padding: 8px;
+  margin-top: 4px; 
+  border-radius: 4px;
+  background-color:rgb(237, 240, 245);
+  border-color: white;
 }

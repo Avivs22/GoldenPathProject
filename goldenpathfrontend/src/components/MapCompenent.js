@@ -131,7 +131,7 @@ const MapComponent = () => {
     e.preventDefault();
     const latitude = parseFloat(e.target.latitude.value);
     const longitude = parseFloat(e.target.longitude.value);
-    const radius = parseFloat(e.target.radius.value); // Get the radius from the form
+    const radius = parseFloat(e.target.radius.value * 1000); // Get the radius from the form
     const speed = parseFloat(e.target.speed.value); // Get the speed from the form
     if (!isNaN(latitude) && !isNaN(longitude) && !isNaN(radius) && !isNaN(speed)) {
       setUserMarkers(prevMarkers => [...prevMarkers, { position: [latitude, longitude], radius, speed }]);
@@ -328,6 +328,8 @@ const MapComponent = () => {
       >
         Update Planes
       </button>
+
+
       <div style={{
         position: 'absolute',
         top: '10px',
@@ -357,31 +359,31 @@ const MapComponent = () => {
         </button>
         {!isMinimized && (
           <>
-           <h2 style={{ fontSize: '18px', margin: '0 0 10px', color: '#333' ,fontFamily: 'Merriweather, Georgia, serif', textAlign:"center"}}>Enter Position</h2>
+           <h2 style={{ fontSize: '18px', margin: '5px 0 10px', color: "black" ,fontFamily: 'Merriweather, Georgia, serif', textAlign:"center", fontSize:"24px",}}>Enter Bomb</h2>
            <form onSubmit={handleSubmit}>
-             <label style={{ display: 'block', marginBottom: '10px' }}>
+             <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px"}}>
                Latitude:
-               <input type="number" step="0.0001" name="latitude" required
-                      style={{ width: '100%', padding: '8px', marginTop: '4px', borderRadius: '4px', border: '1px solid #ddd' }} />
+               <input type="number" step="0.0001" name="latitude" required  placeholder="Enter latitude..."
+                      className="input-style" />
              </label>
-             <label style={{ display: 'block', marginBottom: '10px' }}>
+             <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px" }}>
                Longitude:
-               <input type="number" step="0.0001" name="longitude" required
-                      style={{ width: '100%', padding: '8px', marginTop: '4px', borderRadius: '4px', border: '1px solid #ddd' }} />
+               <input type="number" step="0.0001" name="longitude" required placeholder="Enter longtitude..."
+                      className="input-style" />
              </label>
-             <label style={{ display: 'block', marginBottom: '10px' }}>
-               Radius (meters):
-               <input type="number" name="radius" required
-                      style={{ width: '100%', padding: '8px', marginTop: '4px', borderRadius: '4px', border: '1px solid #ddd' }} />
+             <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px" }}>
+               Radius (Km):
+               <input type="number" name="radius" required placeholder="Enter radius in km..."
+                      className="input-style" />
              </label>
-             <label style={{ display: 'block', marginBottom: '10px' }}>
+             <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px" }}>
                Speed (m/s):
-               <input type="number" name="speed" required
-                      style={{ width: '100%', padding: '8px', marginTop: '4px', borderRadius: '4px', border: '1px solid #ddd' }} />
+               <input type="number" name="speed" required placeholder="Enter speed in m/s..."
+                      className="input-style" />
              </label>
              <button type="submit"
                      className="add-marker-button">
-               Add Marker
+               Add Bomb
              </button>
            </form>
            </>
