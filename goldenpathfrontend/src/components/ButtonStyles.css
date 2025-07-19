@@ -21,30 +21,40 @@
 .floating-button:hover {
   transform: scale(1.05);
 }
-.add-marker-button {
-  position: absolute;
-  margin-top: 10px;
-  width: 90%;
-  padding: 10px;
-  border-radius: 10px;
+.input-style {
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 6px;
   border: none;
-  font-family:Georgia, 'Times New Roman', Times, serif;
-  background-color: #e9810b;
-  color: #ffffff;
-  font-size: 18px;
+  border-bottom: 2px solid #ccc;
+  background-color: transparent;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+}
+
+.input-style:focus {
+  outline: none;
+  border-bottom: 2px solid #007bff;
+  background-color: #f4f7fb;
+}
+
+.add-marker-button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .add-marker-button:hover {
-  background-color: #be6a09; /* lighter blue on hover */
-}
-
-.input-style{
-  width: 95%;
-  padding: 8px;
-  margin-top: 4px; 
-  border-radius: 4px;
-  background-color:rgb(237, 240, 245);
-  border-color: white;
+  background-color: #0056b3;
+  transform: scale(1.03);
 }

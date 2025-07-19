@@ -331,64 +331,119 @@ const MapComponent = () => {
 
 
       <div style={{
-        position: 'absolute',
-        top: '10px',
-        right: '10px',
-        width: isMinimized ? '30px' : '300px',
-        height: isMinimized ? '40px' : '40vh',
-        padding: isMinimized ? '5px' : '20px',
-        backgroundColor: '#f9f9f9',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-        zIndex: 1000, // Ensure it appears on top of the map
-        transition: 'all 0.3s ease'
+  position: 'absolute',
+  top: '10px',
+  right: '10px',
+  width: isMinimized ? '30px' : '300px',
+  height: isMinimized ? '40px' : 'auto',
+  padding: isMinimized ? '5px' : '20px',
+  backgroundColor: '#f9f9f9',
+  borderRadius: '8px',
+  boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+  zIndex: 1000,
+  transition: 'all 0.3s ease'
+}}>
+  <button
+    onClick={() => setIsMinimized(prev => !prev)}
+    style={{
+      position: 'absolute',
+      top: '10px',
+      right: '10px',
+      backgroundColor: 'transparent',
+      border: 'none',
+      fontSize: '18px',
+      cursor: 'pointer',
+    }}
+  >
+    {isMinimized ? '+' : '-'}
+  </button>
+
+  {!isMinimized && (
+    <>
+      <h2 style={{
+        margin: '5px 0 20px',
+        color: "black",
+        fontFamily: 'Merriweather, Georgia, serif',
+        textAlign: "center",
+        fontSize: "22px",
+        letterSpacing: '0.5px'
       }}>
-        <button
-          onClick={() => setIsMinimized(prev => !prev)}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            backgroundColor: 'transparent',
-            border: 'none',
-            fontSize: '18px',
-            cursor: 'pointer',
-          }}
-        >
-          {isMinimized ? '+' : '-'}
-        </button>
-        {!isMinimized && (
-          <>
-           <h2 style={{margin: '5px 0 10px', color: "black" ,fontFamily: 'Merriweather, Georgia, serif', textAlign:"center", fontSize:"24px",}}>Enter Bomb</h2>
-           <form onSubmit={handleSubmit}>
-             <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px"}}>
-               Latitude:
-               <input type="number" step="0.0001" name="latitude" required  placeholder="Enter latitude..."
-                      className="input-style" />
-             </label>
-             <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px" }}>
-               Longitude:
-               <input type="number" step="0.0001" name="longitude" required placeholder="Enter longtitude..."
-                      className="input-style" />
-             </label>
-             <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px" }}>
-               Radius (Km):
-               <input type="number" name="radius" required placeholder="Enter radius in km..."
-                      className="input-style" />
-             </label>
-             <label style={{ display: 'block', marginBottom: '10px',fontFamily:"monospace",fontSize:"16px" }}>
-               Speed (m/s):
-               <input type="number" name="speed" required placeholder="Enter speed in m/s..."
-                      className="input-style" />
-             </label>
-             <button type="submit"
-                     className="add-marker-button">
-               Add Bomb
-             </button>
-           </form>
-           </>
-        )}
-      </div>
+        Enter Bomb Details
+      </h2>
+
+      <form onSubmit={handleSubmit}>
+        <label style={{
+          display: 'block',
+          marginBottom: '20px',
+          fontFamily: "Inter, sans-serif",
+          fontSize: "14px"
+        }}>
+          Latitude:
+          <input
+            type="number"
+            step="0.0001"
+            name="latitude"
+            required
+            placeholder="Enter latitude..."
+            className="input-style"
+          />
+        </label>
+
+        <label style={{
+          display: 'block',
+          marginBottom: '20px',
+          fontFamily: "Inter, sans-serif",
+          fontSize: "14px"
+        }}>
+          Longitude:
+          <input
+            type="number"
+            step="0.0001"
+            name="longitude"
+            required
+            placeholder="Enter longitude..."
+            className="input-style"
+          />
+        </label>
+
+        <label style={{
+          display: 'block',
+          marginBottom: '20px',
+          fontFamily: "Inter, sans-serif",
+          fontSize: "14px"
+        }}>
+          Radius (Km):
+          <input
+            type="number"
+            name="radius"
+            required
+            placeholder="Enter radius in km..."
+            className="input-style"
+          />
+        </label>
+
+        <label style={{
+          display: 'block',
+          marginBottom: '20px',
+          fontFamily: "Inter, sans-serif",
+          fontSize: "14px"
+        }}>
+          Speed (m/s):
+          <input
+            type="number"
+            name="speed"
+            required
+            placeholder="Enter speed in m/s..."
+            className="input-style"
+          />
+        </label>
+
+        <button type="submit" className="add-marker-button">Add Bomb</button>
+      </form>
+    </>
+  )}
+</div>
+
     </div>
   );
 };
